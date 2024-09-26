@@ -1,0 +1,53 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: config-addvol
+  namespace: kube-system
+stringData:
+  SCW_ACCESS_KEY: SCWxxx
+  SCW_DEFAULT_ORGANIZATION_ID: xxx-xx-xxxxx
+  SCW_SECRET_KEY: xxx-xx-xxxxx
+  SCW_DEFAULT_PROJECT_ID: xxx-xx-xxxxx
+  VOL_SIZE: "10G"
+  PREFIX: "addvol"
+  IOPS: "5000"
+  FOLDER: "/data"
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: addvol
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app-sys: addvol
+  template:
+    metadata:
+      labels:
+        app-sys: addvol
+    spec:
+      containers:
+      - name: pause
+        image: registry.k8s.io/pause:3.8
+        imagePullPolicy: IfNotPresent
+      hostPID: true
+      nodeSelector:
+        kubernetes.io/os: linux
+      initContainers:
+      - name: add-and-mount-vol
+        image: ghcr.io/n-arno/kapsule-host-vol-combined:latest
+        imagePullPolicy: Always
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: k8s-node
+          mountPath: /k8s-node
+        envFrom:
+        - secretRef:
+            name: config-addvol
+      volumes:
+      - name: k8s-node
+        hostPath:
+          path: /tmp/scripts
