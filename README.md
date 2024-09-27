@@ -37,6 +37,8 @@ Done!
 
 $ kubectl logs addvol-c7p5v -n kube-system -c mountvol
 
+Reading instance metadata.
+Find associated device.
 Checking if /dev/sdb is formatted...
 Formatting /dev/sdb to ext4.
 Checking if /dev/sdb is mounted...
