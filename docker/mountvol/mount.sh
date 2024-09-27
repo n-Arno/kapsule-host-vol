@@ -5,9 +5,6 @@ FOLDER=${FOLDER:-/data}
 
 set -eu
 
-echo "Checking if metadata magic link is reachable, exit otherwise."
-ping -c 1 -W 1 169.254.42.42 1>/dev/null
-
 # get volume id from medata
 echo "Reading instance metadata."
 eval $(curl -s http://169.254.42.42/conf | egrep '(^VOLUMES_1_ID=)')
