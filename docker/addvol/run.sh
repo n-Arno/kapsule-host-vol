@@ -17,7 +17,7 @@ WAIT=${WAIT:-yes}
 echo "Executing with values: VOL_SIZE=$VOL_SIZE PREFIX=$PREFIX IOPS=$IOPS"
 
 echo "Checking if metadata magic link is reachable, exit otherwise."
-ping -c 1 -W 1 169.254.42.42 1>/dev/null 
+curl -sSf -o /dev/null --connect-timeout 1 http://169.254.42.42 
 
 # get all metadata from magic link
 echo "Reading instance metadata."
