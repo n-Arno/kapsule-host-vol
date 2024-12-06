@@ -3,14 +3,14 @@ kapsule-host-vol
 
 Fire and forget method to add a block volume directly to the host.
 
-- `add-and-mount.yaml` add the volume and mount it to a specific folder
+Check `addvol-combined.yaml` for an example on how to add a volume and mount it to a specific folder
 
 V2
 --
 
 This version is a complete rework. Now adding the volume and mounting it are combined as a single container, with more accurate and reliable tests.
 
-Previous packaged are kept to avoid breaking previous deployment but must not be used.
+Previous packages (addvol/mountvol) are kept to avoid breaking previous deployments but must not be used => **they don't handle nodes having multiple volumes connected**
 
 
 usage
